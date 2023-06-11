@@ -5,16 +5,18 @@ import React, { useState } from "react";
 export default class GetNewTask extends React.Component<{}> {
     static displayName = GetNewTask.name;
 
-    PostTask = async (data : string) => {
+    PostTask = async (data : TodoTask) => {
         var url : string = "http://localhost:5056/api/ToDoTask";
         const postResponse = await fetch(url,
             {
                 method : "POST",
                 mode: "cors",
+                credentials: "same-origin",
                 headers : {
-                    "Content-Type" : "application/json"
+                    "accept" : "/",
+                    "content-type" : "application/json"
                 },
-                body : data
+                body : JSON.stringify(data)
             })
             console.log(postResponse);
             return postResponse.json();
@@ -27,18 +29,18 @@ export default class GetNewTask extends React.Component<{}> {
         const data : TodoTask = {
             id : undefined,
             taskName : target.taskName.value,
-            taskPriority : target.taskPriority.value,
+            taskPriority : parseInt(target.taskPriority.value),
             taskDescription : target.taskDescription.value,
-            taskDueDate : (target.taskDueDate.value) ? target.taskDueDate : undefined
+            taskDueDate : (target.taskDueDate.value) ? target.taskDueDate.value : undefined
         }
         console.log(data);
-        this.PostTask(JSON.stringify(data));
+        this.PostTask(data);
     }
 
     UserForm = () => {
         // the useState's might be unessisary here
         const [taskName , setTaskName] = useState('');
-        const [taskPriority , setTaskPriority] = useState(3);
+        const [taskPriority , setTaskPriority] = useState('');
         const [taskDescription , setTaskDescription] = useState('');
         const [taskDueDate, setTaskDueDate] = useState('');
         
@@ -48,7 +50,7 @@ export default class GetNewTask extends React.Component<{}> {
             <div className="text-input-container">
                 <form className="inline" onSubmit={this.handleSubmit}>
                     <input type="text" id="taskName" onChange={(taskName) => {setTaskName(taskName.target.value)}} value={taskName}/>
-                    <input type="number" id="taskPriority" onChange={(taskPriority) => {setTaskPriority(parseInt(taskPriority.target.value))}} value={taskPriority}/>
+                    <input type="number" id="taskPriority" onChange={(taskPriority) => {setTaskPriority(taskPriority.target.value)}} value={taskPriority} max={5} min={0}/>
                     <input type="text" id="taskDescription" onChange={(taskDescription) => {setTaskDescription(taskDescription.target.value)}} value={taskDescription}/>
                     <input type="date" id="taskDueDate" onChange={(taskDueDate) => {setTaskDueDate(taskDueDate.target.value)}} value={taskDueDate}/>
                     <button type="submit" className="inline" onClick={
