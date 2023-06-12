@@ -1,5 +1,5 @@
 :root {
-  --colorA : rgb(235, 117, 188);
+  --toothBrushPink : rgb(235, 117, 188);
   --colorB : rgb(237, 132, 245);
   --colorC : rgb(159, 48, 219);
   --colorD : rgb(125, 56, 244);
@@ -10,6 +10,11 @@
 
 html body {
   margin: 0;
+}
+ul li{
+  list-style-type: none;
+  margin-left: 0%;
+  margin: 0%;
 }
 .displayTasks-container{
   display: grid;
@@ -46,9 +51,27 @@ html body {
   background-color: aliceblue;
   border: 2px solid aliceblue;
   border-radius: 10px;
+  display: grid;
+  grid-template-rows: 5% 80% 15%;
+}
+.task-checkbox{
+  height: 100%;
+  width: fit-content;
+}
+.task-conatiner{
+  padding: .25em;
+}
+.task-container-overlay{
+  display: grid;
+  grid-template-columns: 5% 60% 20% 15%;
+  border: 1em solid var(--toothBrushPink);
+  border-radius: 15px;
+}
+.todo-container{
+  overflow-y: auto;
 }
 .todo-text-input-container{
-  margin: 50%;
+  position: relative;
 }
 .text-input-container{
   display: block;

@@ -7,10 +7,11 @@ type TaskDisplayData = {
     data : Array<TodoTask>
 }
 
+
 type TodoTask = {
-    id : number | undefined
+    id : string | undefined,
     taskName : string,
-    taskPriority : number,
+    priority : number,
     taskDescription : string | undefined,
-    taskDueDate : Date | undefined
+    dueDate : Date | string | undefined
 }
