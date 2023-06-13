@@ -1,6 +1,4 @@
-import { time } from "console";
-import React from "react";
-import { createEmitAndSemanticDiagnosticsBuilderProgram } from "typescript";
+import React, { useState } from "react";
 
 export default class DisplayTask extends React.Component<{}, TaskDisplayData> {
     static displayName = DisplayTask.name;
@@ -37,12 +35,32 @@ export default class DisplayTask extends React.Component<{}, TaskDisplayData> {
     RenderTask = ({task} : {task : TodoTask}) : JSX.Element => {
         var date : Date = (task.dueDate) ? new Date(task.dueDate) : new Date;
         var dateString : string = `${date.getMonth()} ${date.getDay()} ,${date.getFullYear()}`;
+
+        const determineColor = (completed : Boolean) => {
+            var baseClasses = "task-container-overlay ";
+            if (completed) return (baseClasses + "task-container-overlay-complete");
+            else return baseClasses + "task-container-overlay-noncomplete";
+        }
+        
+        const [completed, setCompleted] = useState(task.completed);
+        var taskCardClasses = determineColor(completed);
+
+        const handleComplete = (e : any) => {
+            e.preventDefault();
+            task.completed = !task.completed;
+            this.editTask(task);
+            
+            console.log(`Before task: ${task.completed}, ${completed}`)
+            setCompleted(task.completed);
+            console.log(`After task: ${task.completed}, ${completed}`)
+        }
         return(
             <div className="task-conatiner">
-                <div className="task-container-overlay">
+                <div className={taskCardClasses}>
                     <div className="taskCard-checkbox">
-                        <form className="task-checkbox">
-                            <input type="checkbox" className="task-checkbox"></input>
+                        <form className="task-checkbox" >
+                            <button onClick={(e) => {handleComplete(e)}} className="task-checkbox-button">Complete Task</button>
+                            <p>{`Done: ${(completed ? "yes" : "no")}`}</p>
                         </form>
                     </div>
                     <div className="taskCard-info">
@@ -91,12 +109,33 @@ export default class DisplayTask extends React.Component<{}, TaskDisplayData> {
                 },
                 body : id
             })
+            .then(() => {
+                this.setState({
+                    data : this.state.data.filter((value, index, array) => {
+                        return value.id != id;
+                    })
+                })
+            })
             console.log(deleteResponse);
     }
 
+    editTask = async (task : TodoTask) => {
+        // this prevents the reload of the page from interfering with the data being sent
+        var editURL : string = "/edit-task";
+        const EDITResponse = await fetch(this.url + editURL, {
+            method : "POST",
+                mode: "cors",
+                headers : {
+                    "accept" : "/",
+                    "content-type" : "application/json"
+                },
+                body : JSON.stringify(task)
+        })
+        console.log(EDITResponse, task.completed);
+    }
+
     getTasks = async () => {
-        var url: string = "http://localhost:5056/api/ToDoTask";
-        const GETResponse = await fetch(url, {
+        const GETResponse = await fetch(this.url, {
             method: "GET",
             mode: "cors",
         })

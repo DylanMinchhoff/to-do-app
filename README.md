@@ -17,8 +17,8 @@ yarn run dev
 
 # Goals
 
-- explore [next.Js](https://nextjs.org/)
-- learn fetch methods for retreveing data from web APIs
+- explore [next.js](https://nextjs.org/)
+- explore fetch methods for retrieving data from web APIs
 - learn about expoitation of webapps and how to secure them from attackers
 - learn and impliment sign in capabilities for storing data to certain accounts
 

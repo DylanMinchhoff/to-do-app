@@ -5,6 +5,7 @@
   --colorD : rgb(125, 56, 244);
   --colorE : rgb(142, 134, 235);
   --colorF : rgb(94, 61, 138);
+  --comptedGreen : rgb(34, 173, 45);
 }
 
 
@@ -54,7 +55,7 @@ ul li{
   display: grid;
   grid-template-rows: 5% 80% 15%;
 }
-.task-checkbox{
+.task-checkbox-button{
   height: 100%;
   width: fit-content;
 }
@@ -64,8 +65,13 @@ ul li{
 .task-container-overlay{
   display: grid;
   grid-template-columns: 5% 60% 20% 15%;
-  border: 1em solid var(--toothBrushPink);
   border-radius: 15px;
+}
+.task-container-overlay-noncomplete {
+  border: 1em solid var(--toothBrushPink);
+}
+.task-container-overlay-complete {
+  border: 1em solid var(--comptedGreen);
 }
 .todo-container{
   overflow-y: auto;

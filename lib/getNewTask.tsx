@@ -7,7 +7,8 @@ export default class GetNewTask extends React.Component<{}> {
     private url : string = "http://localhost:5056/api/ToDoTask";
 
     PostTask = async (data : TodoTask) => {
-        const postResponse = await fetch(this.url,
+        var addURL : string = "/add-task";
+        const postResponse = await fetch(this.url + addURL,
             {
                 method : "POST",
                 mode: "cors",
@@ -29,6 +30,7 @@ export default class GetNewTask extends React.Component<{}> {
         const data : TodoTask = {
             id : undefined,
             taskName : target.taskName.value,
+            completed : false,
             priority : parseInt(target.taskPriority.value),
             taskDescription : target.taskDescription.value,
             dueDate : (target.taskDueDate.value) ? target.taskDueDate.value : undefined
