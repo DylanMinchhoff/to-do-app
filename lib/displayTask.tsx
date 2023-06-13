@@ -42,17 +42,13 @@ export default class DisplayTask extends React.Component<{}, TaskDisplayData> {
             else return baseClasses + "task-container-overlay-noncomplete";
         }
         
-        const [completed, setCompleted] = useState(task.completed);
-        var taskCardClasses = determineColor(completed);
+        var taskCardClasses = determineColor(task.completed);
 
         const handleComplete = (e : any) => {
             e.preventDefault();
             task.completed = !task.completed;
             this.editTask(task);
-            
-            console.log(`Before task: ${task.completed}, ${completed}`)
-            setCompleted(task.completed);
-            console.log(`After task: ${task.completed}, ${completed}`)
+            this.setState({});
         }
         return(
             <div className="task-conatiner">
@@ -60,7 +56,7 @@ export default class DisplayTask extends React.Component<{}, TaskDisplayData> {
                     <div className="taskCard-checkbox">
                         <form className="task-checkbox" >
                             <button onClick={(e) => {handleComplete(e)}} className="task-checkbox-button">Complete Task</button>
-                            <p>{`Done: ${(completed ? "yes" : "no")}`}</p>
+                            <p>{`Done: ${(task.completed ? "yes" : "no")}`}</p>
                         </form>
                     </div>
                     <div className="taskCard-info">
